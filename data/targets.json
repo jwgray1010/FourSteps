@@ -1,0 +1,72 @@
+{
+  "buckets": [
+    {
+      "bucket_id": "aaron_judge_baseball",
+      "sport": "baseball",
+      "player": "Aaron Judge",
+      "focus": [
+        "rookie cards",
+        "parallels",
+        "2018 cards",
+        "bowman",
+        "bowman chrome",
+        "numbered cards"
+      ],
+      "queries": [
+        "aaron judge rookie card bowman",
+        "aaron judge bowman chrome numbered",
+        "aaron judge 2018 parallel",
+        "aaron judge numbered refractor"
+      ]
+    },
+    {
+      "bucket_id": "shohei_ohtani_baseball",
+      "sport": "baseball",
+      "player": "Shohei Ohtani",
+      "focus": [
+        "rookie cards",
+        "parallels",
+        "numbered cards",
+        "2019 cards"
+      ],
+      "queries": [
+        "shohei ohtani rookie card parallel",
+        "shohei ohtani rookie numbered",
+        "shohei ohtani 2019 parallel numbered",
+        "shohei ohtani 2019 refractor"
+      ]
+    },
+    {
+      "bucket_id": "victor_wembanyama_basketball",
+      "sport": "basketball",
+      "player": "Victor Wembanyama",
+      "focus": [
+        "rookie cards",
+        "parallels",
+        "numbered cards"
+      ],
+      "queries": [
+        "victor wembanyama rookie card parallel",
+        "victor wembanyama rookie numbered",
+        "victor wembanyama prizm rookie",
+        "victor wembanyama select rookie parallel"
+      ]
+    },
+    {
+      "bucket_id": "bobby_witt_jr_baseball",
+      "sport": "baseball",
+      "player": "Bobby Witt Jr",
+      "focus": [
+        "rookie cards",
+        "parallels",
+        "numbered cards"
+      ],
+      "queries": [
+        "bobby witt jr rookie card parallel",
+        "bobby witt jr rookie numbered",
+        "bobby witt jr bowman chrome rookie",
+        "bobby witt jr refractor numbered"
+      ]
+    }
+  ]
+}
