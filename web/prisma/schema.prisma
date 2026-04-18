@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CardScanStatus {
+  draft
+  processing
+  completed
+  failed
+  listed
+}
+
+enum CardImageType {
+  front_straight
+  back_straight
+  front_angle_left
+  front_angle_right
+  back_angle_left
+  back_angle_right
+  corner_macro_top_left
+  corner_macro_top_right
+  corner_macro_bottom_left
+  corner_macro_bottom_right
+  other
+}
+
+enum ListingStatus {
+  draft
+  active
+  sold
+  archived
+}
+
+enum OverallCategory {
+  gem_candidate
+  strong_raw
+  borderline
+  visible_risk
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  username     String     @unique
+  passwordHash String
+  profileImage String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  scans        CardScan[]
+  listings     Listing[]
+  sessions     Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  sessionToken String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model CardScan {
+  id                 String          @id @default(cuid())
+  userId             String
+  title              String
+  sport              String
+  year               String?
+  brand              String?
+  setName            String?
+  playerName         String
+  cardNumber         String?
+  serialNumber       String?
+  status             CardScanStatus  @default(draft)
+  overallCategory    OverallCategory?
+  overallScore       Int?
+  imageConfidence    Int?
+  disclaimerAccepted Boolean         @default(false)
+  shareToken         String          @unique @default(cuid())
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  user               User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  images             CardImage[]
+  analysis           CardAnalysis?
+  listing            Listing?
+
+  @@index([userId, createdAt])
+}
+
+model CardImage {
+  id             String        @id @default(cuid())
+  cardScanId     String
+  type           CardImageType
+  originalUrl    String
+  processedUrl   String?
+  width          Int?
+  height         Int?
+  blurScore      Float?
+  glareScore     Float?
+  alignmentScore Float?
+  accepted       Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  cardScan       CardScan      @relation(fields: [cardScanId], references: [id], onDelete: Cascade)
+
+  @@index([cardScanId, type])
+}
+
+model CardAnalysis {
+  id               String   @id @default(cuid())
+  cardScanId       String   @unique
+  centeringScore   Int
+  cornersScore     Int
+  edgesScore       Int
+  surfaceScore     Int
+  centeringDetails Json
+  cornersDetails   Json
+  edgesDetails     Json
+  surfaceDetails   Json
+  flags            Json
+  reasoning        Json
+  createdAt        DateTime @default(now())
+  cardScan         CardScan @relation(fields: [cardScanId], references: [id], onDelete: Cascade)
+}
+
+model Listing {
+  id          String        @id @default(cuid())
+  userId      String
+  cardScanId  String        @unique
+  askingPrice Decimal       @db.Decimal(10, 2)
+  description String
+  status      ListingStatus @default(draft)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardScan    CardScan      @relation(fields: [cardScanId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@index([userId])
+}
