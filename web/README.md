@@ -46,6 +46,22 @@ Open <http://localhost:3000>.
 - Shareable report page
 - Marketplace listing creation + browse + detail
 
+## Mobile backend endpoints (scaffolded)
+
+Namespace: `/api/mobile`
+
+- `POST /api/mobile/scans` - create scan
+- `POST /api/mobile/scans/:id/images` - upload image metadata
+- `POST /api/mobile/scans/:id/analyze` - trigger analysis (mock mode by default)
+- `GET /api/mobile/scans/:id/report` - fetch report payload
+- `POST /api/mobile/listings` - create marketplace listing
+- `GET /api/mobile/listings` - fetch listings
+
+Mock analysis controls:
+
+- `USE_MOCK_ANALYSIS=1` (default) -> returns deterministic mock analysis
+- set `USE_MOCK_ANALYSIS=0` to call the Python analysis service via `ANALYSIS_SERVICE_URL`
+
 ## Important trust language
 
 Reports include:
